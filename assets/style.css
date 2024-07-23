@@ -105,25 +105,29 @@ body {
 .gallery .nav {
 	justify-content: center;
 }
+
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
 	color: #fff;
 	background-color: #BEB45A;
 	border-radius:0 ;
 }
+
 .nav-pills .nav-link {
 	color: #000
 }
+
 .item-column {
 	position: relative;
 	margin-bottom: 0 !important;
 	padding: 0;
 }
+
 .item-column::after{
 	content: "";
 	display: block;
 	padding-bottom: 100%;
-
 }
+
 .gallery-item {
 	position: absolute;
 	width: 100%;
@@ -131,6 +135,7 @@ body {
 	object-fit: cover;
 	padding: .5em;
 }
+
 .mg-prev, .mg-next {
 	width: 30px;
 	height: 30px;
@@ -152,8 +157,10 @@ body {
 	font-family: Spectral;
 	font-style: italic;
 	font-weight: 300;
+	font-size: 38px;
 
 }
+
 .quote__author {
 	font-family: Spectral;
 	font-weight: 800;
