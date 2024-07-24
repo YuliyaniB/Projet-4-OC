@@ -96,6 +96,7 @@ body {
 
 .gallery {
 	display: none;
+	cursor: pointer;
 }
 
 .title{
