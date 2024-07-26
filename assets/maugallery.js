@@ -154,7 +154,7 @@
         }
       });
       next =
-        imagesCollection[index] ||
+        imagesCollection[--index] ||
         imagesCollection[imagesCollection.length - 1];
       $(".lightboxImage").attr("src", $(next).attr("src"));
     },
@@ -192,7 +192,7 @@
           index = i;
         }
       });
-      next = imagesCollection[index] || imagesCollection[0];
+      next = imagesCollection[++index] || imagesCollection[0];
       $(".lightboxImage").attr("src", $(next).attr("src"));
     },
     createLightBox(gallery, lightboxId, navigation) {
@@ -240,7 +240,7 @@
         return;
       }
       $(".active-tag").removeClass("active active-tag");
-      $(this).addClass("active-tag");
+      $(this).addClass("active-tag active");
 
       var tag = $(this).data("images-toggle");
 
@@ -260,4 +260,190 @@
       });
     }
   };
-})(jQuery);
+})(jQuery); 
+
+
+
+/*
+(function() {
+  function mauGallery(element, options) {
+    let defaults = {
+      columns: 3,
+      lightBox: true,
+      lightboxId: null,
+      showTags: true,
+      tagsPosition: "bottom",
+      navigation: true
+    };
+    let options = Object.assign({}, defaults, options);
+    let tagsCollection = [];
+
+    createRowWrapper(element);
+    if (options.lightBox) {
+      createLightBox(element, options.lightboxId, options.navigation);
+    }
+    addListeners(options);
+
+    Array.from(element.children).forEach(function(item) {
+      if (item.classList.contains("gallery-item")) {
+        responsiveImageItem(item);
+        moveItemInRowWrapper(item);
+        wrapItemInColumn(item, options.columns);
+        let theTag = item.getAttribute("data-gallery-tag");
+        if (options.showTags && theTag && tagsCollection.indexOf(theTag) === -1) {
+          tagsCollection.push(theTag);
+        }
+      }
+    });
+
+    if (options.showTags) {
+      showItemTags(element, options.tagsPosition, tagsCollection);
+    }
+
+    element.style.display = 'block';
+    element.style.opacity = 0;
+    let fadeEffect = setInterval(function () {
+      if (!element.style.opacity) {
+        element.style.opacity = 0;
+      }
+      if (element.style.opacity < 1) {
+        element.style.opacity = parseFloat(element.style.opacity) + 0.1;
+      } else {
+        clearInterval(fadeEffect);
+      }
+    }, 50);
+  }
+
+  function createRowWrapper(element) {
+    if (!element.querySelector('.row')) {
+      let row = document.createElement('div');
+      row.className = 'gallery-items-row row';
+      element.appendChild(row);
+    }
+  }
+
+  function wrapItemInColumn(element, columns) {
+    let columnDiv = document.createElement('div');
+    columnDiv.className = 'item-column mb-4';
+    if (typeof columns === 'number') {
+      columnDiv.classList.add(`col-${Math.ceil(12 / columns)}`);
+    } else if (typeof columns === 'object') {
+      if (columns.xs) columnDiv.classList.add(`col-${Math.ceil(12 / columns.xs)}`);
+      if (columns.sm) columnDiv.classList.add(`col-sm-${Math.ceil(12 / columns.sm)}`);
+      if (columns.md) columnDiv.classList.add(`col-md-${Math.ceil(12 / columns.md)}`);
+      if (columns.lg) columnDiv.classList.add(`col-lg-${Math.ceil(12 / columns.lg)}`);
+      if (columns.xl) columnDiv.classList.add(`col-xl-${Math.ceil(12 / columns.xl)}`);
+    } else {
+      console.error(`Columns should be defined as numbers or objects. ${typeof columns} is not supported.`);
+    }
+    element.parentNode.insertBefore(columnDiv, element);
+    columnDiv.appendChild(element);
+  }
+
+  function moveItemInRowWrapper(element) {
+    document.querySelector('.gallery-items-row').appendChild(element);
+  }
+
+  function responsiveImageItem(element) {
+    if (element.tagName === 'IMG') {
+      element.classList.add('img-fluid');
+    }
+  }
+
+  function openLightBox(element, lightboxId) {
+    let lightbox = document.getElementById(lightboxId);
+    lightbox.querySelector('.lightboxImage').src = element.src;
+    new bootstrap.Modal(lightbox).toggle();
+  }
+
+  function prevImage(lightboxId) {
+    // Similar logic to nextImage but in reverse
+  }
+
+  function nextImage(lightboxId) {
+    // Similar logic to nextImage but in reverse
+  }
+
+  function createLightBox(gallery, lightboxId, navigation) {
+    let modalHTML = `
+      <div class="modal fade" id="${lightboxId || 'galleryLightbox'}" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-body">
+              ${navigation ? '<div class="mg-prev" style="cursor:pointer;position:absolute;top:50%;left:-15px;background:white;"><</div>' : '<span style="display:none;"></span>'}
+              <img class="lightboxImage img-fluid" alt="Contenu de l'image affichée dans la modale au clique"/>
+              ${navigation ? '<div class="mg-next" style="cursor:pointer;position:absolute;top:50%;right:-15px;background:white;">></div>' : '<span style="display:none;"></span>'}
+            </div>
+          </div>
+        </div>
+      </div>`;
+    gallery.insertAdjacentHTML('beforeend', modalHTML);
+  }
+
+  function showItemTags(gallery, position, tags) {
+    let tagItems = '<li class="nav-item"><span class="nav-link active active-tag" data-images-toggle="all">Tous</span></li>';
+    tags.forEach(function(value) {
+      tagItems += `<li class="nav-item active"><span class="nav-link" data-images-toggle="${value}">${value}</span></li>`;
+    });
+    let tagsRow = `<ul class="my-4 tags-bar nav nav-pills">${tagItems}</ul>`;
+
+    if (position === "bottom") {
+      gallery.insertAdjacentHTML('beforeend', tagsRow);
+    } else if (position === "top") {
+      gallery.insertAdjacentHTML('afterbegin', tagsRow);
+    } else {
+      console.error(`Unknown tags position: ${position}`);
+    }
+  }
+
+  function filterByTag(event) {
+    if (event.target.classList.contains('active-tag')) {
+      return;
+    }
+    document.querySelector('.active-tag').classList.remove('active', 'active-tag');
+    event.target.classList.add('active-tag');
+
+    let tag = event.target.getAttribute('data-images-toggle');
+
+    document.querySelectorAll('.gallery-item').forEach(function(item) {
+      let parentColumn = item.closest('.item-column');
+      parentColumn.style.display = 'none';
+      if (tag === 'all' || item.getAttribute('data-gallery-tag') === tag) {
+        parentColumn.style.display = 'block';
+      }
+    });
+  }
+
+  function addListeners(options) {
+    document.querySelectorAll('.gallery-item').forEach(function(item) {
+      item.addEventListener('click', function() {
+        if (options.lightBox && item.tagName === 'IMG') {
+          openLightBox(item, options.lightboxId);
+        }
+      });
+    });
+
+    document.querySelector('.gallery').addEventListener('click', function(event) {
+      if (event.target.classList.contains('nav-link')) {
+        filterByTag(event);
+      } else if (event.target.classList.contains('mg-prev')) {
+        prevImage(options.lightboxId);
+      } else if (event.target.classList.contains('mg-next')) {
+        nextImage(options.lightboxId);
+      }
+    });
+  }
+
+  // Assuming that you will call mauGallery function with a specific DOM element and options like:
+  // mauGallery(document.querySelector('.your-gallery-element'), {your options});
+})();
+*/
+
+/*
+Cette version utilise uniquement JavaScript natif pour manipuler le DOM et ajouter des écouteurs d'événements. 
+Remplacez l'appel à mauGallery en fonction de votre contexte d'utilisation, 
+en fournissant l'élément DOM et les options appropriées.
+*/
+
+
+/*utiliser chrome devtool debugger pour les bug js*/
