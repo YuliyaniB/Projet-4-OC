@@ -2,10 +2,12 @@ body {
 	max-width: 1920px;
 	margin: auto;
 }
+
 * {
 	font-family: 'Inter';
 	font-style: normal;
 }
+
 .top-header {
 	background-color: white;
 	position: sticky;
@@ -69,16 +71,18 @@ body {
 
 .picture img {
 	width: 100%;
-
 }
+
 #about-me {
 	flex: 2
 }
+
 .about-me__title {
 	margin-top: 1em;
 	margin-bottom: 60px;
 	font-size: 30px;
 }
+
 .about-me__introduction {
 	font-family: 'Spectral';
 	font-weight: 800;
@@ -90,12 +94,11 @@ body {
 	font-size: 14px;
 }
 
-#gallery {
-	/*	min-height: 100vh; */
-}
-
 .gallery {
 	display: none;
+}
+
+.gallery-items-row {
 	cursor: pointer;
 }
 
@@ -103,18 +106,23 @@ body {
 	text-align: center;
 	padding-block: 2em;
 }
+
 .gallery .nav {
 	justify-content: center;
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-	color: #fff;
-	background-color: #BEB45A;
-	border-radius:0 ;
+	color: #ffffffff;
+	background-color: #beb45a;
+	border-radius: 0 ;
 }
 
 .nav-pills .nav-link {
-	color: #000
+	color: #000;
+}
+
+.nav-link {
+	cursor: pointer;
 }
 
 .item-column {
