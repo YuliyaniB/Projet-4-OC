@@ -25,23 +25,34 @@
 	<!--Local-->
 	<script type="application/ld+json">
 		{
-		  "@context": "https://schema.org",
-		  "@type": "LocalBusiness",
-		  "name": "Nina Carducci",
-		  "description": "Photographe professionnelle basé à Bordeaux, je propose de vous accompagner lors de vos évenements (mariage, séminaire entreprise ...) et de vous fournir un rendu de qualité.",
-		  "url": "https://yuliyanib.github.io/Projet-4-OC/",
-		  "telephone": "05 56 67 78 89",
-		  "openingHours": "Mo-Fr 10:00-19:00",
-		  "address": {
-			"@type": "PostalAddress",
-			"addressCountry": "FR",
-			"addressLocality": "Bordeaux",
-			"addressRegion": "Nouvelle-Aquitaine",
-			"postalCode": "33200",
-			"streetAddress": "68 avenue Alsace-Lorraine"
-		  },
+			"@context": "https://schema.org",
+			"@type": "LocalBusiness",
+			"name": "Nina Carducci - Photographe",
+			"image": "https://yuliyanib.github.io/Projet-4-OC/assets/images/nina_optimal.webp",
+			"url": "https://yuliyanib.github.io/Projet-4-OC/",
+			"telephone": "05 56 67 78 89",
+			"address": {
+				"@type": "PostalAddress",
+				"streetAddress": "68 avenue Alsace-Lorraine",
+				"addressLocality": "Bordeaux",
+				"postalCode": "33200",
+				"addressCountry": "FR"
+			},
+			"openingHoursSpecification": {
+				"@type": "OpeningHoursSpecification",
+				"dayOfWeek": [
+					"Monday",
+					"Tuesday",
+					"Wednesday",
+					"Thursday",
+					"Friday"
+				],
+				"opens": "10:00",
+				"closes": "19:00"
+			}
+
 		}
-		</script>
+	</script>
 
 	<link rel="stylesheet" href="./assets/bootstrap/bootstrap.min.css">
 	<link rel="stylesheet" href="./assets/style.css">
@@ -245,14 +256,10 @@
 		<div class="footer-div">
 			<ul>
 				<li class="footer-title">Horaires d'ouverture</li>
-				<li>du Lundi au Vendredi de 10H à 19h</li>
+				<li>Lundi au Vendredi : 10H - 19H</li>
 			</ul>
 		</div>
 	</footer>
 </body>
 
 </html>
-
-
-
-<!--Mettre sur github page pour Lighthouse-->
